@@ -1,0 +1,21 @@
+name: 'Deploy'
+on: ['deployment']
+
+jobs:
+  deployment:
+    runs-on: 'ubuntu-latest'
+    steps:
+    - name: 'Checkout'
+      uses: 'actions/checkout@v1'
+
+    - name: 'Deploy ${{ github.event.deployment.environment }}'
+      uses: 'deliverybot/helm@master'
+      with:
+        release: '${{ github.event.deployment.environment }}-example'
+        namespace: '${{ github.event.deployment.environment }}'
+        chart: './charts/example'
+        token: '${{ github.token }}'
+        values: |
+          sha: '${{ github.sha }}'
+      env:
+        KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
