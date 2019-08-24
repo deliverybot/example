@@ -1,10 +1,9 @@
 # Deliverybot Example
 
-1. Get a running Kubernetes cluster.
+1. Click the "Use this template" button to create a new fork of this repository.
 
-1. [Initialize a helm client.][1]
+2. Install [deliverybot](https://github.com/apps/deliverybot) on the new repo.
 
-1. Add a `KUBECONFIG` secret in the GitHub dashboard.
+3. Push a commit to your new fork and watch the example workflows kick off!
 
-
-[1]: https://github.com/helm/helm/blob/master/docs/rbac.md#tiller-and-role-based-access-control
+4. Visit the [deliverybot app](https://deliverybot.web.app) and manually deploy.

@@ -8,14 +8,28 @@ jobs:
     - name: 'Checkout'
       uses: 'actions/checkout@v1'
 
-    - name: 'Deploy ${{ github.event.deployment.environment }}'
-      uses: 'deliverybot/helm@master'
+    - name: 'Deployment pending'
+      uses: 'deliverybot/status@master'
       with:
-        release: '${{ github.event.deployment.environment }}-example'
-        namespace: '${{ github.event.deployment.environment }}'
-        chart: './charts/example'
+        state: 'pending'
         token: '${{ github.token }}'
-        values: |
-          sha: '${{ github.sha }}'
-      env:
-        KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
+
+    - name: 'Deploy ${{ github.event.deployment.environment }}'
+      run: |
+        echo "task - ${{ github.event.deployment.task }}"
+        echo "environment - ${{ github.event.deployment.task }}"
+        echo "payload - ${{ github.event.deployment.payload }}"
+
+    - name: 'Deployment success'
+      if: success()
+      uses: 'deliverybot/status@master'
+      with:
+        state: 'success'
+        token: '${{ github.token }}'
+
+    - name: 'Deployment failure'
+      if: failure()
+      uses: 'deliverybot/status@master'
+      with:
+        state: 'failure'
+        token: '${{ github.token }}'
