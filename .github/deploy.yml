@@ -11,6 +11,6 @@ staging:
 
 review:
   deployments:
-  - environment: pr{{ pr }}
+  - environment: pr${{ pr }}
     transient_environment: true
     production_environment: false
