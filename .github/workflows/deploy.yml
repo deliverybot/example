@@ -17,7 +17,7 @@ jobs:
     - name: 'Deploy ${{ github.event.deployment.environment }}'
       run: |
         echo "task - ${{ github.event.deployment.task }}"
-        echo "environment - ${{ github.event.deployment.task }}"
+        echo "environment - ${{ github.event.deployment.environment }}"
         echo "payload - ${{ github.event.deployment.payload }}"
 
     - name: 'Deployment success'
