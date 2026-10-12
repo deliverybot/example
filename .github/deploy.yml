@@ -9,5 +9,6 @@ staging:
 
 review:
   environment: pr${{ pr }}
+  auto_merge: true
   transient_environment: true
   production_environment: false
