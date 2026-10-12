@@ -4,32 +4,32 @@ on: ['deployment']
 jobs:
   deployment:
     runs-on: 'ubuntu-latest'
+    permissions:
+      deployments: 'write'
     steps:
-    - name: 'Checkout'
-      uses: 'actions/checkout@v1'
-
-    - name: 'Deployment pending'
-      uses: 'deliverybot/deployment-status@master'
+    - name: 'Deployment in progress'
+      uses: 'deliverybot/deployment-status@v2'
       with:
-        state: 'pending'
-        token: '${{ github.token }}'
+        state: 'in_progress'
 
     - name: 'Deploy ${{ github.event.deployment.environment }}'
+      env:
+        TASK: '${{ github.event.deployment.task }}'
+        ENVIRONMENT: '${{ github.event.deployment.environment }}'
+        PAYLOAD: '${{ toJSON(github.event.deployment.payload) }}'
       run: |
-        echo "task - ${{ github.event.deployment.task }}"
-        echo "environment - ${{ github.event.deployment.task }}"
-        echo "payload - ${{ github.event.deployment.payload }}"
+        echo "task - $TASK"
+        echo "environment - $ENVIRONMENT"
+        echo "payload - $PAYLOAD"
 
     - name: 'Deployment success'
       if: success()
-      uses: 'deliverybot/deployment-status@master'
+      uses: 'deliverybot/deployment-status@v2'
       with:
         state: 'success'
-        token: '${{ github.token }}'
 
     - name: 'Deployment failure'
       if: failure()
-      uses: 'deliverybot/deployment-status@master'
+      uses: 'deliverybot/deployment-status@v2'
       with:
         state: 'failure'
-        token: '${{ github.token }}'
